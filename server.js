@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
-const db = require('./config/db');
+const request = require('request');
+app.set('view engine', 'ejs')
+
 
 MongoClient.connect(
   'mongodb://mm_recruitment_user_readonly:rebelMutualWhistle@ds037551.mongolab.com:37551/mm-recruitment',
@@ -14,14 +16,26 @@ MongoClient.connect(
   }
 );
 
-app.listen(3000, function() {
-  console.log('listening on 3050');
+app.get('/', function(req, res) {
+  db.collection("company").find().toArray(function(err, results) {
+    if (err) return console.log(err)
+    res.render("index.ejs", {company: results})
+
+  })
+  // request({
+  //   url: 'http://mm-recruitment-stock-price-api.herokuapp.com/company/MSFT',
+  //   json: true
+  // }, (error, response, body) => {
+  //   res.render("index.ejs", {latestPrice: body.latestPrice})
+  //   });
+
 });
 
-app.get('/', function(req, res) {
-  res.sendFile(
-    '/Users/nero/Documents/MakersProjects/MongoDB-API' + '/index.html'
-  );
-  var company = db.collection('company').find();
-  console.log(company);
-});
+app.get('/ticker', function(req, res) {
+  request({
+    url: 'http://mm-recruitment-stock-price-api.herokuapp.com/company/MSFT',
+    json: true
+  }, (error, response, body) => {
+    res.render("index2.ejs", {latestPrice: body.latestPrice})
+    });
+})
