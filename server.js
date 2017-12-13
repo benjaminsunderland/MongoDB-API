@@ -6,6 +6,7 @@ app.listen(3000, function() {
 });
 
 app.get('/', function(req, res) {
-  res.send('Hello world');
+  res.sendFile(
+    '/Users/nero/Documents/MakersProjects/MongoDB-API' + '/index.html'
+  );
 });
-
