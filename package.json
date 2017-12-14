@@ -25,6 +25,7 @@
   "dependencies": {
     "ejs": "^2.5.7",
     "http": "0.0.0",
+    "lodash": "^4.17.4",
     "mongodb": "^2.2.5",
     "request": "^2.83.0",
     "xmlhttprequest": "^1.8.0"
