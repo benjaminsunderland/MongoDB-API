@@ -17,25 +17,16 @@ MongoClient.connect(
 );
 
 app.get('/', function(req, res) {
-  db.collection("company").find().toArray(function(err, results) {
-    if (err) return console.log(err)
-    res.render("index.ejs", {company: results})
-
-  })
-  // request({
-  //   url: 'http://mm-recruitment-stock-price-api.herokuapp.com/company/MSFT',
-  //   json: true
-  // }, (error, response, body) => {
-  //   res.render("index.ejs", {latestPrice: body.latestPrice})
-  //   });
-
-});
-
-app.get('/ticker', function(req, res) {
   request({
     url: 'http://mm-recruitment-stock-price-api.herokuapp.com/company/MSFT',
     json: true
   }, (error, response, body) => {
-    res.render("index2.ejs", {latestPrice: body.latestPrice})
+  db.collection("company").find().toArray(function(err, results) {
+    if (err) return console.log(err)
+    res.render("index.ejs", {company: results, latestPrice: body.latestPrice})
     });
+  })
+});
+
+app.get('/', function(req, res) {
 })
